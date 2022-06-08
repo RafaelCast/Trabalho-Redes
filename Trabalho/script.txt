@@ -1,0 +1,462 @@
+Switch-Matriz
+
+enable
+
+config t
+
+hostname sw-matriz-rc
+
+ip default-gateway 200.200.68.1
+
+interface vlan1
+
+description Matriz
+
+ip address 200.200.68.2 255.255.255.192
+
+no shutdown
+
+exit
+
+exit
+
+copy running-config startup-config
+
+---------------------------------------------------------
+
+
+Switch-Filial1
+
+enable
+
+config t
+
+hostname sw-filial1-rc
+
+ip default-gateway 200.200.68.65
+
+interface vlan1
+
+ip address 200.200.68.66 255.255.255.224
+
+no shutdown
+
+exit
+
+exit
+
+copy running-config startup-config
+
+---------------------------------------------------------
+
+Switch-Filial2
+
+enable
+
+config t
+
+hostname sw-filial2-rc
+
+ip default-gateway 200.200.68.97
+
+interface vlan1
+
+ip address 200.200.68.98 255.255.255.224
+
+no shutdown
+
+exit
+
+exit
+
+copy running-config startup-config
+
+---------------------------------------------------------
+
+
+Roteador-Pato Branco 
+
+enable
+
+config t
+
+hostname r-pb-rc
+
+ipv6 unicast-routing
+
+interface fa0/0
+
+description MATRIZ
+
+ip address 200.200.68.1 255.255.255.192
+
+ipv6 address 2001:DB8:ACAD:4400::1/64
+
+ipv6 address FE80::1 link-local 
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface Se0/0/0
+
+description pb-vit
+
+clock rate 56000
+
+ip address 200.200.68.225 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::1/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface Se0/0/1
+
+description ita-pb
+
+ip address 200.200.68.238 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::3:2/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+ip route 200.200.68.64 255.255.255.224 200.200.68.226
+
+ip route 200.200.68.96 255.255.255.224 200.200.68.226
+
+ip route 200.200.68.228 255.255.255.252 200.200.68.226
+
+ip route 200.200.68.232 255.255.255.252 200.200.68.226
+
+ip route 200.200.68.240 255.255.255.252 200.200.68.226
+
+ipv6 route 2001:DB8:ACAD:4401::/64 2001:DB8:ACAD:44FF::2
+
+ipv6 route 2001:DB8:ACAD:4402::/64 2001:DB8:ACAD:44FF::2
+
+ipv6 route 2001:DB8:ACAD:44FF::1:0/112 2001:DB8:ACAD:44FF::2
+
+ipv6 route 2001:DB8:ACAD:44FF::2:0/112 2001:DB8:ACAD:44FF::2
+
+ipv6 route 2001:DB8:ACAD:44FF::4:0/112 2001:DB8:ACAD:44FF::2
+
+exit
+
+copy running-config startup-config
+
+
+
+---------------------------------------------------------
+
+Roteador-Vitorino 
+
+enable
+
+config t
+
+hostname r-vit-rc
+
+ipv6 unicast-routing
+
+interface Se0/0/0
+
+description vit-fb
+
+clock rate 56000
+
+ip address 200.200.68.229 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::1:1/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface Se0/0/1
+
+description pb-vit
+
+ip address 200.200.68.226 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::2/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+ip route 200.200.68.0 255.255.255.192 200.200.68.230
+
+ip route 200.200.68.64 255.255.255.224 200.200.68.230
+
+ip route 200.200.68.96 255.255.255.224 200.200.68.230
+
+ip route 200.200.68.232 255.255.255.252 200.200.68.230
+
+ip route 200.200.68.236 255.255.255.252 200.200.68.230
+
+ip route 200.200.68.240 255.255.255.252 200.200.68.230
+
+ipv6 route 2001:DB8:ACAD:4400::/64 2001:DB8:ACAD:44FF::1:2
+
+ipv6 route 2001:DB8:ACAD:4401::/64 2001:DB8:ACAD:44FF::1:2
+
+ipv6 route 2001:DB8:ACAD:4402::/64 2001:DB8:ACAD:44FF::1:2
+
+ipv6 route 2001:DB8:ACAD:44FF:2:0/112 2001:DB8:ACAD:44FF::1:2
+
+ipv6 route 2001:DB8:ACAD:44FF:3:0/112 2001:DB8:ACAD:44FF::1:2
+
+ipv6 route 2001:DB8:ACAD:44FF:4:0/112 2001:DB8:ACAD:44FF::1:2
+
+exit
+
+copy running-config startup-config
+
+---------------------------------------------------------
+
+Roteador-Francisco-Beltrão
+
+enable
+
+config t
+
+hostname r-fb-rc
+
+ipv6 unicast-routing
+
+interface fa0/0
+
+description Filial1
+
+ip address 200.200.68.65 255.255.255.224
+
+ipv6 address 2001:DB8:ACAD:4401::1/64
+
+ipv6 address FE80::1 link-local 
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface Se0/0/0
+
+description fb-ita
+
+clock rate 56000
+
+ip address 200.200.68.233 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::2:1/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface Se0/0/1
+
+description vit-fb
+
+ip address 200.200.68.230 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::1:2/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+ip route 200.200.68.0 255.255.255.192 200.200.68.234
+
+ip route 200.200.68.96 255.255.255.224 200.200.68.234
+
+ip route 200.200.68.224 255.255.255.252 200.200.68.234
+
+ip route 200.200.68.236 255.255.255.252 200.200.68.234
+
+ip route 200.200.68.240 255.255.255.252 200.200.68.234
+
+ipv6 route 2001:DB8:ACAD:4400::/64 2001:DB8:ACAD:44FF::2:2
+
+ipv6 route 2001:DB8:ACAD:4402::/64 2001:DB8:ACAD:44FF::2:2
+
+ipv6 route 2001:DB8:ACAD:44FF::0/112 2001:DB8:ACAD:44FF::2:2
+
+ipv6 route 2001:DB8:ACAD:44FF::3:0/112 2001:DB8:ACAD:44FF::2:2
+
+ipv6 route 2001:DB8:ACAD:44FF::4:0/112 2001:DB8:ACAD:44FF::2:2
+
+exit
+
+copy running-config startup-config
+
+---------------------------------------------------------
+
+Roteador-Itapejara-Do-Oeste
+
+enable
+
+config t
+
+hostname r-ita-rc
+
+ipv6 unicast-routing
+
+interface Se0/0/0
+
+description ita-pb
+
+clock rate 56000
+
+ip address 200.200.68.237 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::3:1/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface Se0/0/1
+
+description fb-ita
+
+ip address 200.200.68.234 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::2:2/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface fa0/1
+
+description cv-ita
+
+ip address 200.200.68.241 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::4:1/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+ip route 200.200.68.0 255.255.255.192 200.200.68.238
+
+ip route 200.200.68.64 255.255.255.224 200.200.68.238
+
+ip route 200.200.68.96 255.255.255.224 200.200.68.242
+
+ip route 200.200.68.224 255.255.255.252 200.200.68.238
+
+ip route 200.200.68.228 255.255.255.252 200.200.68.238
+
+ipv6 route 2001:DB8:ACAD:4400::/64 2001:DB8:ACAD:44FF::3:2
+
+ipv6 route 2001:DB8:ACAD:4401::/64 2001:DB8:ACAD:44FF::3:2
+
+ipv6 route 2001:DB8:ACAD:4402::/64 2001:DB8:ACAD:44FF::4:2
+
+ipv6 route 2001:DB8:ACAD:44FF::/112 2001:DB8:ACAD:44FF::3:2
+
+ipv6 route 2001:DB8:ACAD:44FF:1:0/112 2001:DB8:ACAD:44FF::3:2
+
+exit
+
+copy running-config startup-config
+
+---------------------------------------------------------
+
+
+Roteador-Coronel-Vivida
+
+enable
+
+config t
+
+hostname r-cv-rc
+
+ipv6 unicast-routing
+
+interface fa0/0
+
+description Filial2
+
+ip address 200.200.68.97 255.255.255.224
+
+ipv6 address 2001:DB8:ACAD:4402::1/64
+
+ipv6 address FE80::1 link-local 
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+interface fa0/1
+
+description cv-ita
+
+ip address 200.200.68.242 255.255.255.252
+
+ipv6 address 2001:DB8:ACAD:44FF::4:2/112
+
+ipv6 enable
+
+no shutdown
+
+exit
+
+
+ip route 200.200.68.0 255.255.255.192 200.200.68.241
+
+ip route 200.200.68.64 255.255.255.224 200.200.68.241
+
+ip route 200.200.68.224 255.255.255.252 200.200.68.241
+
+ip route 200.200.68.228 255.255.255.252 200.200.68.241
+
+ip route 200.200.68.232 255.255.255.252 200.200.68.241
+
+ip route 200.200.68.236 255.255.255.252 200.200.68.241
+
+ipv6 route 2001:DB8:ACAD:4400::/64 2001:DB8:ACAD:44FF::4:1
+
+ipv6 route 2001:DB8:ACAD:4401::/64 2001:DB8:ACAD:44FF::4:1
+
+ipv6 route 2001:DB8:ACAD:44FF::/112 2001:DB8:ACAD:44FF::4:1
+
+ipv6 route 2001:DB8:ACAD:44FF::1:0/112 2001:DB8:ACAD:44FF::4:1
+
+ipv6 route 2001:DB8:ACAD:44FF::2:0/112 2001:DB8:ACAD:44FF::4:1
+
+ipv6 route 2001:DB8:ACAD:44FF::3:0/112 2001:DB8:ACAD:44FF::4:1
+
+exit
+
+copy running-config startup-config
+
